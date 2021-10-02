@@ -8,12 +8,17 @@
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
-
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/assets/css/styles.css" rel="stylesheet" type="text/css"/>
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
     <body>
+        <a href="{{ path('category_index') }}">Categories</a>
+        <a href="{{ path('item_index') }}">Items</a>
+        <a href="{{ path('log_index') }}">Logs</a>
+        <a href="{{ path('user_index') }}">Users</a>
         {% block body %}{% endblock %}
     </body>
 </html>
