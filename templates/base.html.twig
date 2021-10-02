@@ -12,7 +12,6 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
         <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <script src="/assets/js/bootstrap.bundle.js"></script> 
     </head>
     <body>
 
@@ -24,33 +23,17 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Users</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ path('user_index') }}">See all</a></li>
-                <li><a class="dropdown-item" href="#">Add</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('user_index') }}">Users</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Categories</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ path('category_index') }}">See all</a></li>
-                <li><a class="dropdown-item" href="#">Add</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('category_index') }}">Categories</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Items</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ path('item_index') }}">See all</a></li>
-                <li><a class="dropdown-item" href="#">Add</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('item_index') }}">Items</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Logs</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ path('log_index') }}">See all</a></li>
-                <li><a class="dropdown-item" href="#">Add</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('log_index') }}">Logs</a>
             </li>
           </ul>
         </div>
@@ -58,17 +41,10 @@
     </nav>
     
     <div class="row">
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-    </div>    
-    <div class="row">
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-      <div class="col-sm-3">.col-sm-3</div>
-    </div>    
+      <div class="col-sm-12">
         {% block body %}{% endblock %}
+      </div>
+    </div>    
+    <script src="/assets/js/bootstrap.bundle.js"></script> 
     </body>
 </html>
