@@ -39,9 +39,15 @@ class Category
      */
     private $items;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Log::class, mappedBy="category", orphanRemoval=true)
+     */
+    private $logs;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,6 +115,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($item->getCategory() === $this) {
                 $item->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Log[]
+     */
+    public function getLogs(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs[] = $log;
+            $log->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getCategory() === $this) {
+                $log->setCategory(null);
             }
         }
 
