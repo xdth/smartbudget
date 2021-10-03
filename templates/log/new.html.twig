@@ -3,6 +3,14 @@
 {% block title %}New Log{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('item_index') }}">Items</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New</li>
+      </ol>
+    </nav>
+    
     <h1>Create new Log</h1>
 
     {{ include('log/_form.html.twig') }}

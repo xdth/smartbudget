@@ -3,6 +3,14 @@
 {% block title %}Edit Log{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('log_index') }}">Logs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ log.id }}</li>
+      </ol>
+    </nav>
+    
     <h1>Edit Log</h1>
 
     {{ include('log/_form.html.twig', {'button_label': 'Update'}) }}

@@ -3,6 +3,14 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+      </ol>
+    </nav>
+    
     <h1>User</h1>
 
     <table class="table">
