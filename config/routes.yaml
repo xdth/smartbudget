@@ -1,7 +1,10 @@
-#index:
+# index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
 index:
    path: /
    controller: App\Controller\LogController::index
+app_login:
+   path: /login
+   controller: App\Controller\SecurityController::login
 
