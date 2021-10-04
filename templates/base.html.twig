@@ -24,6 +24,7 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav me-auto">
+            {% if is_granted('ROLE_USER') %}
             <li class="nav-item">
               <a class="nav-link {% if route_name starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Users</a>
             </li>
@@ -39,14 +40,14 @@
             <li class="nav-item">
               <a class="nav-link {% if route_name starts with "budget" %} active {% endif %}" href="{{ path('budget_index') }}">Budget</a>
             </li>
+            {% endif %}
           </ul>
           <ul class="navbar-nav">
+            {% if is_granted('ROLE_USER') %}
             <li class="nav-item">
-              <a class="nav-link {% if route_name starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Login</a>
+              <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {% if route_name starts with "category" %} active {% endif %}" href="{{ path('category_index') }}">Logout</a>
-            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
