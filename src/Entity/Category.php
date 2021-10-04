@@ -44,10 +44,16 @@ class Category
      */
     private $logs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="category", orphanRemoval=true)
+     */
+    private $budgets;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->budgets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,5 +160,35 @@ class Category
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|Budget[]
+     */
+    public function getBudgets(): Collection
+    {
+        return $this->budgets;
+    }
+
+    public function addBudget(Budget $budget): self
+    {
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBudget(Budget $budget): self
+    {
+        if ($this->budgets->removeElement($budget)) {
+            // set the owning side to null (unless already changed)
+            if ($budget->getCategory() === $this) {
+                $budget->setCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

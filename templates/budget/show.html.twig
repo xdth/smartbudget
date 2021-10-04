@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('budget_index') }}">Budget</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ budget.id }}</li>
+      </ol>
+    </nav>
+    
+    <h1>Budget</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ budget.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ budget.value }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ budget.description }}</td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td>{{ budget.details }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('budget_index') }}">back to list</a>
+
+    <a href="{{ path('budget_edit', {'id': budget.id}) }}">edit</a>
+
+    {{ include('budget/_delete_form.html.twig') }}
+{% endblock %}
