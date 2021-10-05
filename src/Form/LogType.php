@@ -6,6 +6,7 @@ use App\Entity\Log;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class LogType extends AbstractType
 {
@@ -16,7 +17,10 @@ class LogType extends AbstractType
             ->add('value')
             ->add('description')
             ->add('details')
-            ->add('date')
+            ->add('date', DateType::class, [
+              // renders it as a single text box
+              'widget' => 'single_text',
+            ])
             ->add('category')
             ->add('item')
         ;
