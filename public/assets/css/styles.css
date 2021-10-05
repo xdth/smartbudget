@@ -1,3 +1,11 @@
 nav {
   margin-bottom: 50px;
 }
+
+.app-inline-buttons {
+  display: flex;
+  justify-content: right;
+}
+.app-inline-buttons form{
+  margin: 0 10px;
+}

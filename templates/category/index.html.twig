@@ -5,12 +5,21 @@
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
         <li class="breadcrumb-item active" aria-current="page">Categories</li>
       </ol>
     </nav>
-    
-    <h1>Categories</h1>
+
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Categories</h1>
+      </div>
+      <div class="col-sm-4">
+        <div class="app-inline-buttons">
+        <a class="btn btn-dark" href="{{ path('category_new') }}">Create new</a>
+        </div>
+      </div>
+    </div>
 
     <table class="table">
         <thead>
@@ -18,7 +27,6 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Details</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,10 +36,9 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>{{ category.description }}</td>
-                <td>{{ category.details }}</td>
                 <td>
-                    <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                    <a class="btn btn-dark btn-sm" href="{{ path('category_show', {'id': category.id}) }}">show</a>
+                    <a class="btn btn-dark btn-sm" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -41,6 +48,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('category_new') }}">Create new</a>
 {% endblock %}

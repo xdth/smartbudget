@@ -5,17 +5,23 @@
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('user_index') }}">Users</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('user_index') }}">Users</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
       </ol>
     </nav>
     
-    <h1>Edit User</h1>
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Edit User</h1>
+      </div>
+      <div class="col-sm-4">
+        <div class="app-inline-buttons">
+          {{ include('user/_delete_form.html.twig') }}
+          <a class="btn btn-dark" href="{{ path('user_index') }}">Back</a>
+        </div>
+      </div>
+    </div>
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('user_index') }}">back to list</a>
-
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

@@ -5,17 +5,23 @@
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('category_index') }}">Categories</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('category_index') }}">Categories</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
       </ol>
     </nav>
     
-    <h1>Edit Category</h1>
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Edit Category</h1>
+      </div>
+      <div class="col-sm-4">
+        <div class="app-inline-buttons">
+          {{ include('category/_delete_form.html.twig') }}
+          <a class="btn btn-dark" href="{{ path('category_index') }}">Back</a>
+        </div>
+      </div>
+    </div>
 
     {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('category_index') }}">back to list</a>
-
-    {{ include('category/_delete_form.html.twig') }}
 {% endblock %}

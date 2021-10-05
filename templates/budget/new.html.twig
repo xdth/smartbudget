@@ -5,15 +5,22 @@
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('budget_index') }}">Budget</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('budget_index') }}">Budget</a></li>
         <li class="breadcrumb-item active" aria-current="page">New</li>
       </ol>
     </nav>
     
-    <h1>Create new Budget</h1>
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>Create new Budget</h1>
+      </div>
+      <div class="col-sm-4">
+        <div class="app-inline-buttons">
+          <a class="btn btn-dark" href="{{ path('budget_index') }}">Back</a>
+        </div>
+      </div>
+    </div>
 
     {{ include('budget/_form.html.twig') }}
-
-    <a href="{{ path('budget_index') }}">back to list</a>
 {% endblock %}
