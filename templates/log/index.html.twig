@@ -28,9 +28,8 @@
                 <th>Operation</th>
                 <th>Value</th>
                 <th>Description</th>
-                <th>Details</th>
                 <th>Date</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +39,6 @@
                 <td>{{ log.operation }}</td>
                 <td>{{ log.value }}</td>
                 <td>{{ log.description }}</td>
-                <td>{{ log.details }}</td>
                 <td>{{ log.date ? log.date|date('Y-m-d') : '' }}</td>
                 <td>
                     <a class="btn btn-dark btn-sm" href="{{ path('log_show', {'id': log.id}) }}">show</a>
