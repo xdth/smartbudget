@@ -10,3 +10,15 @@ nav {
 .app-inline-buttons form{
   margin: 0 10px;
 }
+
+#dashboard-categories {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+#dashboard-categories section {
+  margin: 30px 10px;
+  width: 30%;
+}

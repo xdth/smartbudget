@@ -26,6 +26,8 @@
             <tr>
                 <th>Id</th>
                 <th>Operation</th>
+                <th>Category</th>
+                <th>Item</th>
                 <th>Value</th>
                 <th>Description</th>
                 <th>Date</th>
@@ -37,6 +39,8 @@
             <tr>
                 <td>{{ log.id }}</td>
                 <td>{{ log.operation }}</td>
+                <td>{{ log.category }}</td>
+                <td>{{ log.item }}</td>
                 <td>{{ log.value }}</td>
                 <td>{{ log.description }}</td>
                 <td>{{ log.date ? log.date|date('Y-m-d') : '' }}</td>

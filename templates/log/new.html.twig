@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
-
+{% dump(log) %}
+{% dump(form) %}
 {% block title %}New Log{% endblock %}
 
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('item_index') }}">Items</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('log_index') }}">Logs</a></li>
         <li class="breadcrumb-item active" aria-current="page">New</li>
       </ol>
     </nav>

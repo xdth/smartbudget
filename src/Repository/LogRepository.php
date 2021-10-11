@@ -47,4 +47,74 @@ class LogRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function myTestFunctionz()
+    {
+        return "yo";
+    }
+
+    public function globalTotalPerMonth(string $operation): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+            SELECT
+
+            strftime('%Y','now') as current_year,
+            strftime('%Y', date) as year,
+            strftime('%m', date) as month,
+            SUM(value)
+            
+            FROM log
+            WHERE operation = :operation
+            AND year = current_year
+            GROUP BY month
+            ORDER BY month;            
+            ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['operation' => $operation]);
+
+        return $stmt->fetchAllAssociative();
+    }
+
+    // graph 1 - current month - categories - planned vs real
+    public function graph1_currentMonthCategoriesPlannedVsReal(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+          SELECT
+          strftime('%Y','now') as current_year,
+          strftime('%Y', date) as year,
+          strftime('%m','now') as current_month,
+          strftime('%m', date) as month,
+          c.name as category_name,
+          SUM(l.value) as log_total,
+          b.value as budget_total
+          
+          FROM category c
+          
+          LEFT JOIN log l
+          on c.id = l.category_id
+          
+          LEFT JOIN budget b
+          on c.id = b.category_id
+          
+          WHERE l.operation = 'debit'
+          AND year = current_year
+          AND month = current_month
+          
+          GROUP BY c.name
+          ORDER BY month
+        ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        foreach($stmt as $key => $value) {
+          $result['labels'][] = $value['category_name'];
+          $result['log_total'][] = $value['log_total'];
+          $result['budget_total'][] = $value['budget_total'];
+        }
+
+        return $result;
+    }    
 }
