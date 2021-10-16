@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
-
-{%dump(graph1_currentMonthCategoriesPlannedVsReal)%}
+{%dump(currentYearIncomeVsCosts)%}
 
 {% block title %}Dashboard{% endblock %}
 
 {% block body %}
     <div class="row">
       <div class="col-sm-8">
-        <h1>Dashboard</h1>
+        <h1 style="margin-bottom: 80px">Dashboard</h1>
       </div>
       <div class="col-sm-4">
         <div class="app-inline-buttons">
@@ -17,37 +16,45 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <canvas id="chart1" style="width:100%;max-width:600px"></canvas>
-
-        <h1>Members</h1>
-
+        <script>
+          function getRandomColor() {
+            let chars = '0123456789ABCDEF'.split('');
+            let color = '#';
+            for (let i = 0; i < 6; i++ ) {
+              color += chars[Math.floor(Math.random() * 16)];
+            }
+            return color;
+          }         
+        </script>       
+        <!-- ############## chart 1 ############## -->
+        <canvas id="chart_currentMonthCategoriesPlannedVsReal" style="width:100%;max-width:600px"></canvas>
 
         <script>
         var xValues = [
-        {% for item in graph1_currentMonthCategoriesPlannedVsReal['labels'] %}
+        {% for item in currentMonthCategoriesPlannedVsReal['labels'] %}
           "{{ item|e }}",
         {% endfor %}
         ]        
 
-        new Chart("chart1", {
+        new Chart("chart_currentMonthCategoriesPlannedVsReal", {
           type: "bar",
           data: {
             labels: xValues,
             datasets: [
                 {
                     label: "Planned",
-                    backgroundColor: "purple",
+                    backgroundColor: getRandomColor(),
                     data: [
-                    {% for item in graph1_currentMonthCategoriesPlannedVsReal['budget_total'] %}
+                    {% for item in currentMonthCategoriesPlannedVsReal['budget_total'] %}
                       "{{ item|e }}",
                     {% endfor %}
                     ] 
                 },
                 {
                     label: "Real",
-                    backgroundColor: "blue",
+                    backgroundColor: getRandomColor(),
                     data: [
-                    {% for item in graph1_currentMonthCategoriesPlannedVsReal['log_total'] %}
+                    {% for item in currentMonthCategoriesPlannedVsReal['log_total'] %}
                       "{{ item|e }}",
                     {% endfor %}
                     ] 
@@ -70,8 +77,20 @@
               yAxes: [{
                 ticks: {
                   min: 0,
+                },
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                  drawBorder: false,
+                },
+                display: false
+              }],
+              xAxes: [{
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                  drawBorder: false,
+                display: false
                 }
-              }]
+              }],
             },
             title: {
               display: true,
@@ -82,23 +101,26 @@
         </script>      
       </div> <!-- end col -->
       <div class="col-sm-6">
-        <canvas id="chart2" style="width:100%;max-width:600px"></canvas>
+        <!-- ############## chart 2 ############## -->
+        <canvas id="chart_currentMonthCategoriesCostsPercentage" style="width:100%;max-width:600px"></canvas>
 
         <script>
-        var xValues = ["Food", "Transport", "Kids", "Health", "Housing","Tech", "Financial obligations", "Personal"];
-        var yValues = [55, 49, 44, 24, 15, 34, 21, 12];
-        var barColors = [
-          "#b91d47",
-          "#00aba9",
-          "#2b5797",
-          "#e8c3b9",
-          "#1e7145",
-          "tomato",
-          "dodgerblue",
-          "slateblue"
-        ];
+        var xValues = [
+        {% for item in currentMonthCategoriesCostsPercentage['labels'] %}
+          "{{ item|e }}",
+        {% endfor %}
+        ]        
 
-        new Chart("chart2", {
+        var yValues = [
+        {% for item in currentMonthCategoriesCostsPercentage['percentages_total'] %}
+          "{{ item|e }}",
+        {% endfor %}
+        ]        
+
+        var barColors = [];
+        xValues.forEach(() => barColors.push(getRandomColor()));
+
+        new Chart("chart_currentMonthCategoriesCostsPercentage", {
           type: "doughnut",
           data: {
             labels: xValues,
@@ -124,7 +146,10 @@
                   return value + '%';
                 }                
               }
-            },            
+            },
+            legend: {
+              position: 'bottom',
+            },  
             title: {
               display: true,
               text: "Current month - Categories - costs %"
@@ -132,280 +157,261 @@
           }
         });
         </script>      
-
-
-
-        
       </div> <!-- end col -->
     </div> <!-- end row -->
 
-
+    <div class="dashboard-spacer"></div>
 
     <div class="row">
       <div class="col-sm-12">
         <div id="dashboard-categories">
-        <section>
-          <canvas id="chart_cat_1" style="width:100%;max-width:600px"></canvas>
+        <!-- ############## charts 3 ############## -->              
+        {% for key in currentMonthItemsPerCategoryPlannedVsReal|keys %}
+          <script>
+          var {{ key|e }}_items = [     
+          {% for value in currentMonthItemsPerCategoryPlannedVsReal[key].items %}
+            "{{ value|e }}",
+          {% endfor %}
+          ]
+          </script>
 
           <script>
-          new Chart("chart_cat_1", {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
-                }],
-                labels: ['January', 'February', 'March', 'April']
-            },
-            options:  {
-              legend: {
-                display: true,
-                position: 'bottom',
-              },
-            }
-          });
-          </script>          
-        </section> <!-- section 1 -->
-
-        <section>
-          <canvas id="chart_cat_2" style="width:100%;max-width:600px"></canvas>
+          var {{ key|e }}_budget = [     
+          {% for value in currentMonthItemsPerCategoryPlannedVsReal[key].budget %}
+            {{ value|e }},
+          {% endfor %}
+          ]
+          </script>
 
           <script>
-          new Chart("chart_cat_2", {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
-                }],
-                labels: ['January', 'February', 'March', 'April']
-            },
-            options:  {
-              legend: {
-                display: true,
-                position: 'bottom',
-              },
-            }
-          });
-          </script>          
-        </section> <!-- section 2 -->
-
-
-
+          var {{ key|e }}_log = [     
+          {% for value in currentMonthItemsPerCategoryPlannedVsReal[key].log %}
+            {{ value|e }},
+          {% endfor %}
+          ]
+          </script>
         <section>
-          <canvas id="chart_cat_3" style="width:100%;max-width:600px"></canvas>
+          <canvas id="currentMonthItemsPerCategoryPlannedVsReal_{{ key|e }}" style="width:100%;max-width:600px"></canvas>
 
           <script>
-          new Chart("chart_cat_3", {
-            type: 'bar',
+          new Chart("currentMonthItemsPerCategoryPlannedVsReal_{{ key|e }}", {
+            type: "bar",
             data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
-                }],
-                labels: ['January', 'February', 'March', 'April']
+              labels: {{ key|e }}_items,
+              datasets: [
+                  {
+                      label: "Planned",
+                      backgroundColor: getRandomColor(),
+                      data: {{ key|e }}_budget,
+                  },
+                  {
+                      label: "Real",
+                      backgroundColor: getRandomColor(),
+                      data: {{ key|e }}_log,
+                  }
+              ]
             },
-            options:  {
+            options: {
+              responsive: true,
+              plugins: {
+                datalabels: {
+                  color: '#FFF',
+                  anchor: 'start',
+                  align: 'top',
+                }
+              },
               legend: {
-                display: true,
                 position: 'bottom',
               },
-            }
-          });
-          </script>          
-        </section> <!-- section 3 -->
-
-
-
-        <section>
-          <canvas id="chart_cat_4" style="width:100%;max-width:600px"></canvas>
-
-          <script>
-          new Chart("chart_cat_4", {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    min: 0,
+                  },
+                  display: false,
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  }
                 }],
-                labels: ['January', 'February', 'March', 'April']
-            },
-            options:  {
-              legend: {
-                display: true,
-                position: 'bottom',
-              },
-            }
-          });
-          </script>          
-        </section> <!-- section 4 -->
-
-
-        <section>
-          <canvas id="chart_cat_5" style="width:100%;max-width:600px"></canvas>
-
-          <script>
-          new Chart("chart_cat_5", {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
+                xAxes: [{
+                  display: false,
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  }
                 }],
-                labels: ['January', 'February', 'March', 'April']
-            },
-            options:  {
-              legend: {
-                display: true,
-                position: 'bottom',
               },
+              title: {
+                display: true,
+                text: "{{ key|e }} - Current month - Items per category"
+              }
             }
           });
-          </script>          
-        </section> <!-- section 5 -->
-
-
-        <section>
-          <canvas id="chart_cat_6" style="width:100%;max-width:600px"></canvas>
-
-          <script>
-          new Chart("chart_cat_6", {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [40, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 2
-                }, {
-                    label: 'Line Dataset',
-                    data: [35, 25, 45, 30],
-                    type: 'line',
-                    fill: false,
-                    // this dataset is drawn on top
-                    order: 1
-                }],
-                labels: ['January', 'February', 'March', 'April']
-            },
-            options:  {
-              legend: {
-                display: true,
-                position: 'bottom',
-              },
-            }
-          });
-          </script>          
-        </section> <!-- section 6 -->
-
-
-
+          </script>
+        </section>
+          
+        {% endfor %}
 
         </div> <!-- #dashboard-categories -->
       </div> <!-- end col -->
     </div> <!-- end row -->
 
+    <div class="dashboard-spacer"></div>
+
     <div class="row">
       <div class="col-sm-6">
-        <canvas id="chart3" style="width:100%;max-width:600px"></canvas>
+        <!-- ############## chart 4 ############## -->
+        <script>
+          let labels = [
+            {% for key in currentYearIncomeVsCosts|keys %}
+              {{ key }},
+            {% endfor %}
+          ];
+        </script>
 
         <script>
-        new Chart("chart3", {
-          type: 'bar',
-          data: {
-              datasets: [{
-                  label: 'Bar Dataset',
-                  data: [40, 20, 30, 40],
-                  // this dataset is drawn below
-                  order: 2
-              }, {
-                  label: 'Line Dataset',
-                  data: [35, 25, 45, 30],
-                  type: 'line',
-                  fill: false,
-                  // this dataset is drawn on top
-                  order: 1
-              }],
-              labels: ['January', 'February', 'March', 'April']
-          },
-          options:  {
-            legend: {display: true}
-          }
-        });
-        </script>      
-      </div> <!-- end col -->
-      <div class="col-sm-6">
-        <canvas id="chart4" style="width:100%;max-width:600px"></canvas>
+          let sum_credit = [
+            {% for value in currentYearIncomeVsCosts %}
+              {{ value.sum_credit }},
+            {% endfor %}
+          ];
+        </script>
 
         <script>
-        var xValues = [100,200,300,400,500,600,700,800,900,1000];
+          let sum_debit = [
+          {% for value in currentYearIncomeVsCosts %}
+            {{ value.sum_debit }},
+          {% endfor %}
+          ];
+        </script>
 
-        new Chart("chart4", {
-          type: "line",
+        <canvas id="chart_currentYearIncomeVsCosts" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+        new Chart("chart_currentYearIncomeVsCosts", {
+          type: "bar",
           data: {
-            labels: xValues,
-            datasets: [{ 
-              data: [860,1140,1060,1060,1070,1110,1330,2210,7830,2478],
-              borderColor: "red",
-              fill: false
-            }, { 
-              data: [1600,1700,1700,1900,2000,2700,4000,5000,6000,7000],
-              borderColor: "green",
-              fill: false
-            }, { 
-              data: [300,700,2000,5000,6000,4000,2000,1000,200,100],
-              borderColor: "blue",
-              fill: false
-            }]
+            labels: [10, 11, 12],
+            datasets: [
+                {
+                    label: "Revenues",
+                    backgroundColor: getRandomColor(),
+                    data: sum_credit,
+                },
+                {
+                    label: "Expenses",
+                    backgroundColor: getRandomColor(),
+                    data: sum_debit,
+                }
+            ]
           },
           options: {
-            legend: {display: false}
+            responsive: true,
+            plugins: {
+              datalabels: {
+                color: '#FFF',
+                anchor: 'start',
+                align: 'top',
+              }
+            },
+            legend: {
+              position: 'bottom',
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  min: 0,
+                },
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                  drawBorder: false,
+                },
+                display: false
+              }],
+              xAxes: [{
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                  drawBorder: false,
+                display: false
+                }
+              }],
+            },
+            title: {
+              display: true,
+              text: "Current year - Revenues vs Expenses"
+            }
           }
         });
+        </script>        
+      </div> <!-- end col -->
+      <div class="col-sm-6">
+        <!-- ############## chart 5 ############## -->
+        <canvas id="chart_currentYearCategoriesCosts" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+          let month = [
+          {% for value in currentYearCategoriesCosts['months'] %}
+            {{ value }},
+          {% endfor %}
+          ];
+          var xValues = month;
+
+          new Chart("chart_currentYearCategoriesCosts", {
+            type: "line",
+            data: {
+              labels: xValues,
+              datasets: [
+
+              {% for key, value in currentYearCategoriesCosts['categories'] %}
+                {
+                  label: "{{ key }}",
+                  data: [
+                    {% for value2 in value %}
+                      {{ value2 }},
+                    {% endfor %}
+                  ],
+                  borderColor: getRandomColor(),
+                  fill: false
+                }, 
+              {% endfor %}
+              ]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                datalabels: {
+                  color: '#FFF',
+                  anchor: 'start',
+                  align: 'top',
+                }
+              },
+              legend: {
+                position: 'bottom',
+              },
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    min: 0,
+                  },
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    drawBorder: false,
+                  },
+                  display: false
+                }],
+                xAxes: [{
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    drawBorder: false,
+                  display: false
+                  }
+                }],
+              },
+              title: {
+                display: true,
+                text: "Current year - Revenues vs Expenses"
+              }
+            }
+          });
         </script>      
       </div> <!-- end col -->
     </div> <!-- end row -->

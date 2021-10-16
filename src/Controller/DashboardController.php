@@ -18,10 +18,18 @@ class DashboardController extends AbstractController
       $logRepository = $this->getDoctrine()->getRepository(Log::class);
 
       // $globalTotalPerMonth = $logRepository->globalTotalPerMonth('credit');
-      $graph1_currentMonthCategoriesPlannedVsReal = $logRepository->graph1_currentMonthCategoriesPlannedVsReal();
+      $currentMonthCategoriesPlannedVsReal = $logRepository->currentMonthCategoriesPlannedVsReal();
+      $currentMonthCategoriesCostsPercentage = $logRepository->currentMonthCategoriesCostsPercentage();
+      $currentMonthItemsPerCategoryPlannedVsReal = $logRepository->currentMonthItemsPerCategoryPlannedVsReal();
+      $currentYearIncomeVsCosts = $logRepository->currentYearIncomeVsCosts();
+      $currentYearCategoriesCosts = $logRepository->currentYearCategoriesCosts();
      
       return $this->render('dashboard/index.html.twig', [
-          'graph1_currentMonthCategoriesPlannedVsReal' => $graph1_currentMonthCategoriesPlannedVsReal,
+          'currentMonthCategoriesPlannedVsReal' => $currentMonthCategoriesPlannedVsReal,
+          'currentMonthCategoriesCostsPercentage' => $currentMonthCategoriesCostsPercentage,
+          'currentMonthItemsPerCategoryPlannedVsReal' => $currentMonthItemsPerCategoryPlannedVsReal,
+          'currentYearIncomeVsCosts' => $currentYearIncomeVsCosts,
+          'currentYearCategoriesCosts' => $currentYearCategoriesCosts,
           // 'globalTotalPerMonth' => $globalTotalPerMonth
       ]);
     }
