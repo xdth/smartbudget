@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{%dump(currentYearIncomeVsCosts)%}
+{%dump(currentMonthCategoriesPlannedVsReal)%}
 
 {% block title %}Dashboard{% endblock %}
 
@@ -24,7 +24,13 @@
               color += chars[Math.floor(Math.random() * 16)];
             }
             return color;
-          }         
+          }
+
+          function monthName(monthNumber) {
+            var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+            return monthNames[monthNumber - 1];
+          }
+          
         </script>       
         <!-- ############## chart 1 ############## -->
         <canvas id="chart_currentMonthCategoriesPlannedVsReal" style="width:100%;max-width:600px"></canvas>
@@ -194,10 +200,17 @@
           <canvas id="currentMonthItemsPerCategoryPlannedVsReal_{{ key|e }}" style="width:100%;max-width:600px"></canvas>
 
           <script>
+          var xValues = [
+          {% for item in currentMonthCategoriesPlannedVsReal['labels'] %}
+            "{{ item|e }}",
+          {% endfor %}
+          ];        
+
           new Chart("currentMonthItemsPerCategoryPlannedVsReal_{{ key|e }}", {
             type: "bar",
             data: {
               labels: {{ key|e }}_items,
+              // labels: xValues,
               datasets: [
                   {
                       label: "Planned",
@@ -228,15 +241,17 @@
                   ticks: {
                     min: 0,
                   },
-                  display: false,
                   gridLines: {
                     color: "rgba(0, 0, 0, 0)",
-                  }
+                    drawBorder: false,
+                  },
+                  display: false
                 }],
                 xAxes: [{
-                  display: false,
                   gridLines: {
                     color: "rgba(0, 0, 0, 0)",
+                    drawBorder: false,
+                  display: false
                   }
                 }],
               },
@@ -263,7 +278,7 @@
         <script>
           let labels = [
             {% for key in currentYearIncomeVsCosts|keys %}
-              {{ key }},
+              monthName({{ key }}),
             {% endfor %}
           ];
         </script>
@@ -290,7 +305,7 @@
         new Chart("chart_currentYearIncomeVsCosts", {
           type: "bar",
           data: {
-            labels: [10, 11, 12],
+            labels: labels,
             datasets: [
                 {
                     label: "Revenues",
@@ -350,7 +365,7 @@
         <script>
           let month = [
           {% for value in currentYearCategoriesCosts['months'] %}
-            {{ value }},
+            monthName({{ value }}),
           {% endfor %}
           ];
           var xValues = month;
