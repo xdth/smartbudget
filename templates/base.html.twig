@@ -14,8 +14,8 @@
         {% endblock %}
         <link href="/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/assets/css/styles.css" rel="stylesheet" type="text/css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+        <script src="/assets/js/Chart.js"></script>
+        <script src="/assets/js/chartjs-plugin-datalabels@0.7.0"></script>
     </head>
     <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -34,24 +34,37 @@
               <a class="nav-link {% if route_name starts with "log" %} active {% endif %}" href="{{ path('log_index') }}">Logs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {% if route_name starts with "category" %} active {% endif %}" href="{{ path('category_index') }}">Categories</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if route_name starts with "item" %} active {% endif %}" href="{{ path('item_index') }}">Items</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link {% if route_name starts with "budget" %} active {% endif %}" href="{{ path('budget_index') }}">Budget</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if route_name starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Users</a>
             </li>
             {% endif %}
           </ul>
           <ul class="navbar-nav">
             {% if is_granted('ROLE_USER') %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
-            </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle 
+                  {% if route_name starts with "category"  
+                      or route_name starts with "item" 
+                      or route_name starts with "user" %} active {% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Settings
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">            
+                  <li class="nav-item">
+                    <a class="dropdown-item {% if route_name starts with "category" %} active {% endif %}" href="{{ path('category_index') }}">Categories</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="dropdown-item {% if route_name starts with "item" %} active {% endif %}" href="{{ path('item_index') }}">Items</a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                      <a class="dropdown-item  {% if route_name starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Users</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+              </li>
             {% endif %}
           </ul>
         </div>
