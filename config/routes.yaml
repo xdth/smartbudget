@@ -3,7 +3,7 @@
 #    controller: App\Controller\DefaultController::index
 index:
    path: /
-   controller: App\Controller\LogController::index
+   controller: App\Controller\DashboardController::index
 app_login:
    path: /login
    controller: App\Controller\SecurityController::login

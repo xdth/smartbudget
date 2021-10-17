@@ -47,4 +47,28 @@ class ItemRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findItemsByCategoryId(int $category_id): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT
+            c.id as cat_id,
+            c.name as cat_name,
+            i.id as item_id,
+            i.name as item_name
+            
+            FROM item i
+            LEFT JOIN category c
+            ON c.id = i.category_id
+            
+            WHERE cat_id = :category_id
+            '; 
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['category_id' => $category_id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAllAssociative();
+    }
 }

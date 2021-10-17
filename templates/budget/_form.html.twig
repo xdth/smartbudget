@@ -2,3 +2,37 @@
     {{ form_widget(form) }}
     <button class="btn btn-dark">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+let budget_category = document.getElementById("budget_category");
+budget_category.addEventListener("change", getItems);
+let budget_item = document.getElementById("budget_item");
+
+{% if "new" in route_name %}
+  budget_item.innerHTML = '';
+  budget_item.disabled = true;
+{% endif %}
+
+async function getItems() {
+  try {
+    const response = await fetch(
+      `/items/findItemsByCategoryId/${budget_category.value}`
+    );
+
+    const data = await response.json();
+
+    let options = '';
+
+    for (key in data) {
+      options +=
+      `<option value="${key}">${data[key].item_name}</option>`;
+    }
+
+    budget_item.innerHTML = options;
+    budget_item.disabled = false;
+
+  } catch(err) {
+    throw new Error("The API is unavailable.");
+  }  
+}
+</script>

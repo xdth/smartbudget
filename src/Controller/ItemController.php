@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/items")
@@ -91,4 +92,13 @@ class ItemController extends AbstractController
 
         return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/findItemsByCategoryId/{category_id}", name="item_findItemsByCategoryId", methods={"GET"})
+     */
+    public function findItemsByCategoryId(ItemRepository $itemRepository, $category_id): Response
+    {
+        return new JsonResponse($itemRepository->findItemsByCategoryId($category_id));
+    }
+
 }
