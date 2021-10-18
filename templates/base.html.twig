@@ -28,13 +28,13 @@
           <ul class="navbar-nav me-auto">
             {% if is_granted('ROLE_USER') %}
             <li class="nav-item">
-              <a class="nav-link {% if route_name starts with 'dashboard' %} active {% endif %}" href="{{ path('dashboard') }}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if route_name starts with "log" %} active {% endif %}" href="{{ path('log_index') }}">Logs</a>
+              <a class="nav-link {% if route_name starts with 'dashboard' or route_name starts with 'index' %} active {% endif %}" href="{{ path('dashboard') }}">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if route_name starts with "budget" %} active {% endif %}" href="{{ path('budget_index') }}">Budget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if route_name starts with "log" %} active {% endif %}" href="{{ path('log_index') }}">Logs</a>
             </li>
             {% endif %}
           </ul>

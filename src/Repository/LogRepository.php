@@ -19,6 +19,36 @@ class LogRepository extends ServiceEntityRepository
         parent::__construct($registry, Log::class);
     }
 
+    public function findAll()
+    {
+      $conn = $this->getEntityManager()->getConnection();
+
+      $sql = "
+        SELECT 
+        l.id,
+        l.category_id,
+        c.name category,
+        l.item_id,
+        i.name item,
+        l.operation,
+        l.value,
+        l.description,
+        l.details,
+        l.date
+        
+        FROM log l
+        LEFT JOIN category c
+        ON l.category_id = c.id
+        
+        LEFT JOIN item i
+        ON l.item_id = i.id;
+      ";
+
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      return $stmt->fetchAllAssociative();
+    }
+
     // /**
     //  * @return Log[] Returns an array of Log objects
     //  */
