@@ -5,8 +5,8 @@
 {% block body %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ path('index') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ path('budget_index') }}">Budget</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-dark" href="{{ path('budget_index') }}">Budget</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ budget.id }}</li>
       </ol>
     </nav>
@@ -33,6 +33,14 @@
             <tr>
                 <th>Value</th>
                 <td>{{ budget.value }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ budget.category }}</td>
+            </tr>
+            <tr>
+                <th>Item</th>
+                <td>{{ budget.item }}</td>
             </tr>
             <tr>
                 <th>Description</th>

@@ -5,13 +5,15 @@
 
 <script>
 let log_category = document.getElementById("log_category");
-log_category.addEventListener("change", getItems);
 let log_item = document.getElementById("log_item");
 
 {% if "new" in route_name %}
   log_item.innerHTML = '';
-  log_item.disabled = true;
 {% endif %}
+
+getItems();
+log_category.addEventListener("change", getItems);
+
 
 async function getItems() {
   try {

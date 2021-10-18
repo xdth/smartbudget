@@ -36,7 +36,7 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.roles[0] == 'ROLE_ADMIN' ? 'admin' : 'user' }}</td>
                 <td>
                     <a class="btn btn-dark btn-sm" href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a class="btn btn-dark btn-sm" href="{{ path('user_edit', {'id': user.id}) }}">edit</a>

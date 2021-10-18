@@ -41,7 +41,10 @@ class LogRepository extends ServiceEntityRepository
         ON l.category_id = c.id
         
         LEFT JOIN item i
-        ON l.item_id = i.id;
+        ON l.item_id = i.id
+        
+        ORDER BY l.id DESC
+        ;
       ";
 
       $stmt = $conn->prepare($sql);

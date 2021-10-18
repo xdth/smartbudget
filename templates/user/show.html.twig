@@ -37,11 +37,12 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.roles[0] == 'ROLE_ADMIN' ? 'admin' : 'user' }}</td>
+                
             </tr>
             <tr>
                 <th>Password</th>
-                <td>{{ user.password }}</td>
+                <td>***</td>
             </tr>
             <tr>
                 <th>Email</th>

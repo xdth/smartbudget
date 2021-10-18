@@ -5,13 +5,15 @@
 
 <script>
 let budget_category = document.getElementById("budget_category");
-budget_category.addEventListener("change", getItems);
 let budget_item = document.getElementById("budget_item");
 
 {% if "new" in route_name %}
   budget_item.innerHTML = '';
-  budget_item.disabled = true;
 {% endif %}
+
+getItems();
+budget_category.addEventListener("change", getItems);
+
 
 async function getItems() {
   try {
