@@ -27,7 +27,7 @@ async function getItems() {
 
     for (key in data) {
       options +=
-      `<option value="${key}">${data[key].item_name}</option>`;
+      `<option value="${data[key].item_id">${data[key].item_name}</option>`;
     }
 
     budget_item.innerHTML = options;
