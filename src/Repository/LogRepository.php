@@ -144,6 +144,12 @@ class LogRepository extends ServiceEntityRepository
           $result['budget_total'][] = $value['budget_total'];
         }
 
+        (!isset($result) || $result === null) && $result = array(
+          'labels' => [],
+          'budget_total' => [],
+          'log_total' => [],
+        );
+
         return $result;
     }    
 
@@ -184,9 +190,16 @@ class LogRepository extends ServiceEntityRepository
           $result['sum_total'] = $sum_total;
         }
 
-        foreach ($result['log_total'] as $value) {
-          $result['percentages_total'][] = round(($value * 100) / $result['sum_total']);
+        if (isset($result)) {
+          foreach ($result['log_total'] as $value) {
+            $result['percentages_total'][] = round(($value * 100) / $result['sum_total']);
+          }
         }
+
+        (!isset($result) || $result === null) && $result = array(
+          'labels' => [],
+          'percentages_total' => []
+        );
 
         return $result;
     }    
@@ -235,6 +248,8 @@ class LogRepository extends ServiceEntityRepository
           $result[$value['category_name']]['budget'][] = $value['budget_total'] === null ? 0 : $value['budget_total'];
           $result[$value['category_name']]['log'][] = $value['log_total'];
         }
+
+        (!isset($result) || $result === null) && $result = array();
 
         return $result;
     }
@@ -289,9 +304,13 @@ class LogRepository extends ServiceEntityRepository
           $result[$value['month']]['sum_credit'] = $value['sum_credit'] === null ? 0 : $value['sum_credit'];
         }
 
-        foreach ($result as $key => $value) {
-          !isset($result[${'key'}]['sum_credit']) && $result[${'key'}]['sum_credit'] = 0;
+        if(isset($result)) {
+          foreach ($result as $key => $value) {
+            !isset($result[${'key'}]['sum_credit']) && $result[${'key'}]['sum_credit'] = 0;
+          }
         }
+
+        (!isset($result) || $result === null) && $result = array();
 
         return $result;
     }        
@@ -330,19 +349,26 @@ class LogRepository extends ServiceEntityRepository
           }
         }
 
-        $result['months'] = array_unique($result['months']);
-
-        foreach ($result['categories'] as $cat_name => $value) {
-          foreach ($result['months'] as $key => $month) {
-            if (!array_key_exists($month, $value)) {
-              $result['categories'][$cat_name][$month] = 0;
-            }
-          }
+        if(isset($result)) {
+          $result['months'] = array_unique($result['months']);
 
           foreach ($result['categories'] as $cat_name => $value) {
-            ksort($result['categories'][$cat_name]);
+            foreach ($result['months'] as $key => $month) {
+              if (!array_key_exists($month, $value)) {
+                $result['categories'][$cat_name][$month] = 0;
+              }
+            }
+
+            foreach ($result['categories'] as $cat_name => $value) {
+              ksort($result['categories'][$cat_name]);
+            }
           }
         }
+
+        (!isset($result) || $result === null) && $result = array(
+          'months' => [],
+          'categories' => []
+        );
 
         return $result;
     }        
