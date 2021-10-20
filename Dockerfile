@@ -12,4 +12,4 @@ RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 RUN composer install
 
 EXPOSE 8000
-CMD php bin/console cache:clear && symfony serve --no-tls
+CMD php bin/console cache:clear && symfony serve
