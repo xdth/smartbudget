@@ -26,8 +26,7 @@ async function getItems() {
     let options = '';
 
     for (key in data) {
-      options +=
-      `<option value="${data[key].item_id">${data[key].item_name}</option>`;
+      options += `<option value="${data[key].item_id}">${data[key].item_name}</option>`;
     }
 
     log_item.innerHTML = options;
