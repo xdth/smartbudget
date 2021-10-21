@@ -13,7 +13,7 @@
 
 ## What is the smartbudget app?
 
-smartbudget is an open-source application aiming to help you better organize your family finances. You can log your revenues and expenses, classify them by categories and compare to a previously defined budget, with the help of an amazing dashboard.
+**smartbudget** is an open-source application aiming to help you better organize your family finances. You can log your revenues and expenses, classify them by categories and compare to a previously defined budget, with the help of an amazing dashboard.
 
 
 ## Features
@@ -38,6 +38,8 @@ To run the images:
 - app demo: **`sudo docker run --name smartbudget_demo -it -p 8000:8000 dthlabs/smartbudget_demo`**
 
 Then visit http://localhost:8000 on your browser.
+
+Enter the default login "admin" and its password "admin" (don't forget to change the admin password as soon as possible).
 
 
 ## Screenshots
