@@ -13,9 +13,6 @@
 
 ## What is the smartbudget app?
 
-Focus is an application that aims to help you better organize your day. It contains interesting features as
-well as astonishing background images and beautiful minimalist responsive design. It is built with vanilla Javascript and its whole code weights less than 25kb!
-
 smartbudget is an open-source application aiming to help you better organize your family finances. You can log your revenues and expenses, classify them by categories and compare to a previously defined budget, with the help of an amazing dashboard.
 
 
