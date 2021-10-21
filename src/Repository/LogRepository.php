@@ -117,12 +117,13 @@ class LogRepository extends ServiceEntityRepository
           strftime('%m','now') as current_month,
           strftime('%m', date) as month,
           c.name as category_name,
-          SUM(l.value) as log_total,
-          b.value as budget_total
+          b.value as budget_total,
+          --l.value
+          SUM(distinct l.value) as log_total
           
-          FROM category c
+          FROM log l
           
-          LEFT JOIN log l
+          LEFT JOIN category c
           on c.id = l.category_id
           
           LEFT JOIN budget b
@@ -132,7 +133,7 @@ class LogRepository extends ServiceEntityRepository
           AND year = current_year
           AND month = current_month
           
-          GROUP BY c.name
+          GROUP BY category_name
           ORDER BY month
         ";
         $stmt = $conn->prepare($sql);
